@@ -1,0 +1,35 @@
+from collections import deque
+
+def is_goal(state):
+    return state == '123456780'
+
+def get_neighbors(state):
+    neighbors = []
+    zero_index = state.index('0')
+    row, col = divmod(zero_index, 3)
+    directions = [(-1,0),(1,0),(0,-1),(0,1)]
+    for dr, dc in directions:
+        r, c = row + dr, col + dc
+        if 0 <= r < 3 and 0 <= c < 3:
+            idx = r * 3 + c
+            lst = list(state)
+            lst[zero_index], lst[idx] = lst[idx], lst[zero_index]
+            neighbors.append(''.join(lst))
+    return neighbors
+
+def bfs(start):
+    visited = set()
+    queue = deque([(start, [])])
+    while queue:
+        state, path = queue.popleft()
+        if state in visited:
+            continue
+        visited.add(state)
+        if is_goal(state):
+            return path + [state]
+        for neighbor in get_neighbors(state):
+            queue.append((neighbor, path + [state]))
+
+start_state = '123456708'  # Sample input
+solution = bfs(start_state)
+print("Steps to goal:", solution)
