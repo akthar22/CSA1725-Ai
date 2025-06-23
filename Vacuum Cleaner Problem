@@ -1,0 +1,10 @@
+def vacuum_cleaner(room):
+    for i in range(len(room)):
+        if room[i] == 1:
+            print(f"Cleaning Room {i}")
+            room[i] = 0
+        else:
+            print(f"Room {i} already clean")
+    print("Final Room State:", room)
+
+vacuum_cleaner([1, 0, 1, 1])
