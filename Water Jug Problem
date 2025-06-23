@@ -1,0 +1,18 @@
+def water_jug(a, b, target):
+    visited = set()
+    stack = [(0, 0)]
+    while stack:
+        x, y = stack.pop()
+        if (x, y) in visited:
+            continue
+        visited.add((x, y))
+        if x == target or y == target:
+            print("Solution:", x, y)
+            return
+        stack.extend([
+            (a, y), (x, b), (0, y), (x, 0),
+            (min(x + y, a), max(0, x + y - a)),
+            (max(0, x + y - b), min(x + y, b))
+        ])
+
+water_jug(4, 3, 2)
