@@ -1,0 +1,32 @@
+def is_valid(m_left, c_left, m_right, c_right):
+    if m_left < 0 or c_left < 0 or m_right < 0 or c_right < 0:
+        return False
+    if m_left < c_left and m_left > 0:
+        return False
+    if m_right < c_right and m_right > 0:
+        return False
+    return True
+
+def missionaries_cannibals():
+    visited = set()
+    queue = [((3, 3, 1), [])]  # (M_left, C_left, Boat on left)
+    while queue:
+        (ml, cl, b), path = queue.pop(0)
+        mr, cr = 3 - ml, 3 - cl
+        if (ml, cl, b) in visited:
+            continue
+        visited.add((ml, cl, b))
+        path = path + [(ml, cl, b)]
+        if ml == 0 and cl == 0:
+            print("Solution Path:", path)
+            return
+        moves = [(1,0), (2,0), (0,1), (0,2), (1,1)]
+        for m, c in moves:
+            if b:
+                new_state = (ml - m, cl - c, 0)
+            else:
+                new_state = (ml + m, cl + c, 1)
+            if is_valid(*new_state[:2], 3 - new_state[0], 3 - new_state[1]):
+                queue.append((new_state, path))
+
+missionaries_cannibals()
